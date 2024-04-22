@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "autoinfelytra",
+	"version": "${version}",
+	"name": "Automatic Infinite Elytra",
+	"description": "Automatically performs the motions required for Infinite Elytra Flight",
+	"authors": [
+		"AdyTech99!"
+	],
+	"contact": {
+		"homepage": "https://adytech99.github.io/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "Apache License 2.0",
+	"icon": "assets/autoinfelytra/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"io.github.autoinfelytra.AutomaticInfiniteElytraClient"
+		],
+		"fabric-datagen": [
+			"io.github.autoinfelytra.AutomaticInfiniteElytraDataGenerator"
+		],
+		"modmenu" : ["io.github.autoinfelytra.config.ModMenuAPIImpl"]
+	},
+	"accessWidener": "automaticinfelytra.accesswidener",
+	"mixins": [
+		"autoinfelytra.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"minecraft": "1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"yet_another_config_lib_v3": ">=3.2.1"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

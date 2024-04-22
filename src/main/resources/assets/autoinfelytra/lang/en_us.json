@@ -1,0 +1,38 @@
+{
+
+  "yacl3.config.automatic-elytra:config.x_coordinates_of_hud": "X Coordinate of status HUD",
+  "yacl3.config.automatic-elytra:config.y_coordinates_of_hud": "Y Coordinate of status HUD",
+  "yacl3.config.automatic-elytra:config.distance_between_sentences": "HUD Line Spacing",
+  "yacl3.config.automatic-elytra:config.render_hud": "Render HUD",
+  "yacl3.config.automatic-elytra:config.max_altitude": "Maximum Altitude",
+  "yacl3.config.automatic-elytra:config.anti_collision": "Use Collision Detection Utility",
+
+  "yacl3.config.automatic-elytra:config.render_flight_mode": "Show Flight Mode in HUD",
+  "yacl3.config.automatic-elytra:config.render_altitude": "Show Altitude in HUD",
+  "yacl3.config.automatic-elytra:config.render_speed": "Show Flight Speed in HUD",
+  "yacl3.config.automatic-elytra:config.render_elytra_durability": "Show Elytra Durability in HUD",
+  "yacl3.config.automatic-elytra:config.render_autopilot_coords": "Show Autopilot Coordinates in HUD",
+  "yacl3.config.automatic-elytra:config.do_landing": "Perform Automatic Landing",
+  "yacl3.config.automatic-elytra:config.autopilot": "Activate Autopilot",
+
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "Automatic Elytra HUD Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "Automatic Elytra Flight Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Autopilot": "Automatic Elytra Autopilot Settings",
+
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Appearance": "HUD Appearance",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Settings": "HUD Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autopilot_Main": "Autopilot Settings",
+
+  "yacl3.config.automatic-elytra:config.max_altitude.desc": "Maximum Altitude where pulling up will occur. Note: The true flying maximum altitude may be 60 or 70 blocks more than this. It is recommended to keep this number over 100 blocks above terrain level",
+  "yacl3.config.automatic-elytra:config.anti_collision.desc": "This Utility will automatically stop elytra flight and attempt to turn if there is an obstacle ahead. It only works in Automatic Flight Mode. Please note that the utility is not foolproof; it is best to not completely rely on it.",
+  "yacl3.config.automatic-elytra:config.distance_between_sentences.desc": "Line Spacing between HUD sentences",
+  "yacl3.config.automatic-elytra:config.do_landing.desc": "This module will automatically attempt to land the player when the player has arrived at the destination set in the Autopilot.",
+
+  "yacl3.config.automatic-elytra:config.x_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means leftmost",
+  "yacl3.config.automatic-elytra:config.y_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means upmost",
+
+
+
+  "text.elytraautoflight.title" : "Automatic Infinite Elytra",
+  "key.elytraautoflight.toggle" : "Toggle Elytra Flight"
+}
