@@ -1,6 +1,7 @@
 package io.github.autoinfelytra;
 
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
+import io.github.autoinfelytra.hud.HUD;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -28,7 +29,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
     private static KeyBinding keyBinding;
     public static AutomaticInfiniteElytraClient instance;
 
-    private boolean lastPressed = false;
+    private static boolean lastPressed = false;
 
     public static final double DEFAULT_PULL_UP_ANGLE = -46.633514;
     public static final double DEFAULT_PULL_DOWN_ANGLE = 37.19872;
@@ -38,35 +39,35 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
     public static final double DEFAULT_PULL_DOWN_SPEED = 0.20545267 * 3;
 
     // Flight parameters
-    public double pullUpAngle = DEFAULT_PULL_UP_ANGLE;
-    public double pullDownAngle = DEFAULT_PULL_DOWN_ANGLE;
-    public double pullUpMinVelocity = DEFAULT_PULL_UP_MIN_VELOCITY;
-    public double pullDownMaxVelocity = DEFAULT_PULL_DOWN_MAX_VELOCITY;
-    public double pullUpSpeed = DEFAULT_PULL_UP_SPEED;
-    public double pullDownSpeed = DEFAULT_PULL_DOWN_SPEED;
+    public static double pullUpAngle = DEFAULT_PULL_UP_ANGLE;
+    public static double pullDownAngle = DEFAULT_PULL_DOWN_ANGLE;
+    public static double pullUpMinVelocity = DEFAULT_PULL_UP_MIN_VELOCITY;
+    public static double pullDownMaxVelocity = DEFAULT_PULL_DOWN_MAX_VELOCITY;
+    public static double pullUpSpeed = DEFAULT_PULL_UP_SPEED;
+    public static double pullDownSpeed = DEFAULT_PULL_DOWN_SPEED;
     public static final int rotationAmount = 180/CollisionDetectionUtil.scanAheadTicks;
     public static int rotationStage = 0;
 
-    private MinecraftClient minecraftClient;
+    private static MinecraftClient minecraftClient;
 
-    public boolean showHud;
+    public static boolean showHud;
     public static boolean autoFlight;
 
-    private Vec3d previousPosition;
-    private double currentVelocity;
+    private static Vec3d previousPosition;
+    private static double currentVelocity;
 
-    public boolean isDescending;
-    public boolean pullUp;
-    public boolean pullDown;
+    public static boolean isDescending;
+    public static boolean pullUp;
+    public static boolean pullDown;
     public boolean rotating = false;
 
-    public final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
-    public final int YELLOW_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.YELLOW)).getRgb();
-    public final int GREEN_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.GREEN)).getRgb();
+    public static final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
+    public static final int YELLOW_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.YELLOW)).getRgb();
+    public static final int GREEN_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.GREEN)).getRgb();
 
-    public ArrayList hudArray;
-    public int hudColor = RED_HUD_COLOR;
-    public final int HUD_ELEMENTS = 5;
+    public static ArrayList<String> hudArray;
+    public static int hudColor = RED_HUD_COLOR;
+    public static final int HUD_ELEMENTS = 5;
 
     @Override
     public void onInitializeClient() {
@@ -89,7 +90,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
 
         System.out.println("I believe I can fly...");
         ClientTickEvents.END_CLIENT_TICK.register(e -> {
-            this.onTick();
+            onTick();
             if(AutomaticElytraConfig.HANDLER.instance().autopilot) Autopilot.tick();
         });
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
@@ -164,7 +165,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         }
     }
 
-    private void onTick() {
+    private static void onTick() {
         if(minecraftClient == null) minecraftClient = MinecraftClient.getInstance();
         if (minecraftClient.player != null) {
             rotatePlayer(minecraftClient);
@@ -233,25 +234,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
 
 
             if (showHud && AutomaticElytraConfig.HANDLER.instance().render_hud) {
-                double altitude = minecraftClient.player.getPos().y;
-                ItemStack itemStack = minecraftClient.player.getEquippedStack(EquipmentSlot.CHEST);
-                String[] hudString = new String[HUD_ELEMENTS];
-                if (hudArray == null) hudArray = new ArrayList<String>();
-                else hudArray.clear();
-
-                if(AutomaticElytraConfig.HANDLER.instance().render_flight_mode) hudString[0] = "Flight mode: " + (autoFlight ? "Automatic" : "Manual");
-                if(Autopilot.isLanding()) hudString[0] = hudString[0] + " Landing";
-                if(Autopilot.isAutopilotRunning()) hudString[0] = hudString[0] + ", Autopilot running";
-
-                if(AutomaticElytraConfig.HANDLER.instance().render_altitude) hudString[1] = "Altitude: " + String.format("%.2f", altitude);
-                if(AutomaticElytraConfig.HANDLER.instance().render_speed) hudString[2] = "Speed: " + String.format("%.2f", currentVelocity * 20) + " m/s";
-                if(AutomaticElytraConfig.HANDLER.instance().render_elytra_durability) hudString[3] = "Elytra Durability: " + String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
-                if(Autopilot.isAutopilotRunning() && AutomaticElytraConfig.HANDLER.instance().render_autopilot_coords) hudString[4] = "Autopilot: " + Autopilot.getDestination().getX() + " " + Autopilot.getDestination().getY() + " " + Autopilot.getDestination().getZ() + " (" + Math.round(Math.pow(Autopilot.getDestination().getSquaredDistance(minecraftClient.player.getBlockPos()), 0.5)) + ")";
-
-                for(int i = 0; i < HUD_ELEMENTS; i++){
-                    if(hudString[i] != null && !hudString[i].isEmpty()) hudArray.add(hudString[i]);
-                }
-
+                hudArray = HUD.generateHUD(hudArray, HUD_ELEMENTS);
                 if (autoFlight) hudColor = GREEN_HUD_COLOR;
                 else hudColor = YELLOW_HUD_COLOR;
             } else hudArray = null;
@@ -259,7 +242,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         }
     }
 
-    private void computeVelocity()
+    private static void computeVelocity()
     {
         Vec3d newPosition = minecraftClient.player.getPos();
         if (previousPosition == null)
@@ -267,5 +250,9 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         Vec3d difference = new Vec3d(newPosition.x - previousPosition.x, newPosition.y - previousPosition.y, newPosition.z - previousPosition.z);
         previousPosition = newPosition;
         currentVelocity = difference.length();
+    }
+
+    public static double getCurrentVelocity(){
+        return currentVelocity;
     }
 }

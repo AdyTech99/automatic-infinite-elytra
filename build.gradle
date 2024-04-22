@@ -27,6 +27,10 @@ repositories {
 			password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
 		}
 	}
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+	}
 	mavenCentral()
 }
 
@@ -45,7 +49,6 @@ dependencies {
 	modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl}")
 
 	include modImplementation("dev.xpple:clientarguments:${project.clientarguments}")
-
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

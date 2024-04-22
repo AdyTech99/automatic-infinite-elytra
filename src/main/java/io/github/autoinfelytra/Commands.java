@@ -47,7 +47,7 @@ public class Commands {
                     if(AutomaticElytraConfig.HANDLER.instance().autopilot){
                         if(AutomaticInfiniteElytraClient.autoFlight) {
                             Autopilot.setLocation(pos);
-                            context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getY() + " " + pos.getZ()).formatted(Formatting.GREEN));
+                            context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                         }
                         else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
                     }
