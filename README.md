@@ -1,7 +1,7 @@
 Minecraft has a vanilla glitch where moving your head in a specific up-down pattern can allow you to fly infinitely <br>
 This mod simulates those patterns automatically. <br>
 
-[Video](https://www.youtube-nocookie.com/embed/l-zHXNd8mnI)
+![Video](https://www.youtube-nocookie.com/embed/l-zHXNd8mnI)
 _Note: Video is **not** made by me_
 
 ### Features:
