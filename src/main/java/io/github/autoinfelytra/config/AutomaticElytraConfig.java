@@ -35,7 +35,7 @@ public class AutomaticElytraConfig {
     @MasterTickBox(value = "")
     public boolean anti_collision = true;
 
-   // HUD MAIN
+   // HUDHelper MAIN
 
     @SerialEntry
     @AutoGen(category = "Automatic_Elytra_HUD", group = "HUD_Settings")
@@ -46,7 +46,8 @@ public class AutomaticElytraConfig {
             "render_altitude",
             "render_speed",
             "render_elytra_durability",
-            "distance_between_sentences"
+            "distance_between_sentences",
+            "render_autopilot_coords"
     })
     public boolean render_hud = true;
 

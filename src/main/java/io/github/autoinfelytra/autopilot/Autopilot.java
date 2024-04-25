@@ -1,5 +1,6 @@
-package io.github.autoinfelytra;
+package io.github.autoinfelytra.autopilot;
 
+import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.argument.EntityAnchorArgumentType;

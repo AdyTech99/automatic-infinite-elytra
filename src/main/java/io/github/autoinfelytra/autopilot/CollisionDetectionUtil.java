@@ -1,5 +1,6 @@
-package io.github.autoinfelytra;
+package io.github.autoinfelytra.autopilot;
 
+import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -24,7 +25,7 @@ public class CollisionDetectionUtil {
         if (world.getBlockState(blockPos).isSolid()) {
             player.sendMessage(Text.literal("[Collision Detection Utility] ").formatted(Formatting.AQUA).append(Text.literal("Flight aborted due to obstacle ahead!")), false); // Send a message to the player
             player.sendMessage(Text.literal("Consider using fireworks to boost your height before enabling automatic flight"));
-            AutomaticInfiniteElytraClient.instance.rotating = true;
+            AutomaticInfiniteElytraClient.rotating = true;
         }
     }
 }

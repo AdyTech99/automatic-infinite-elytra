@@ -1,15 +1,16 @@
 package io.github.autoinfelytra;
 
+import io.github.autoinfelytra.autopilot.Autopilot;
+import io.github.autoinfelytra.autopilot.CollisionDetectionUtil;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import io.github.autoinfelytra.hud.HUD;
+import io.github.autoinfelytra.hud.HUDHelper;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
@@ -59,98 +60,44 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
     public static boolean isDescending;
     public static boolean pullUp;
     public static boolean pullDown;
-    public boolean rotating = false;
+    public static boolean rotating = false;
 
-    public static final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
-    public static final int YELLOW_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.YELLOW)).getRgb();
-    public static final int GREEN_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.GREEN)).getRgb();
 
-    public static ArrayList<String> hudArray;
-    public static int hudColor = RED_HUD_COLOR;
-    public static final int HUD_ELEMENTS = 5;
 
     @Override
     public void onInitializeClient() {
         AutomaticElytraConfig.HANDLER.load();
-        System.out.println("Sky's the beginning!");
+        LOGGER.info("Sky's the beginning!");
 
         Commands.registerCommands();
         Autopilot.init();
+        HUDHelper.init();
 
         keyBinding = new KeyBinding(
                 "key.elytraautoflight.toggle", // The translation key of the keybinding's name
                 InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_R, // The keycode of the key
+                GLFW.GLFW_KEY_RIGHT_ALT, // The keycode of the key
                 "text.elytraautoflight.title" // The translation key of the keybinding's category.
         );
 
         KeyBindingHelper.registerKeyBinding(keyBinding);
 
         lastPressed = false;
-
-        System.out.println("I believe I can fly...");
         ClientTickEvents.END_CLIENT_TICK.register(e -> {
             onTick();
             if(AutomaticElytraConfig.HANDLER.instance().autopilot) Autopilot.tick();
         });
-        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            drawContext.draw();
-
-            //FLIGHT MODE
-            if(hudArray != null && hudArray.size() >= 1) drawContext.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    (String) hudArray.get(0),
-                    AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                    (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -2),
-                    hudColor,
-                    true);
-
-            //ALTITUDE
-            if(hudArray != null && hudArray.size() >= 2) drawContext.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    (String) hudArray.get(1),
-                    AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                    (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -1),
-                    hudColor,
-                    true);
-
-            //SPEED
-            if(hudArray != null && hudArray.size() >= 3) drawContext.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    (String) hudArray.get(2),
-                    AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                    (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 0),
-                    hudColor,
-                    true);
-
-            //ELYTRA DURABILITY
-            if(hudArray != null && hudArray.size() >= 4) drawContext.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    (String) hudArray.get(3),
-                    AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                    (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 1),
-                    hudColor,
-                    true);
-
-            //AUTOPILOT
-            if(hudArray != null && hudArray.size() >= 5) drawContext.drawText(
-                    MinecraftClient.getInstance().textRenderer,
-                    (String) hudArray.get(4),
-                    AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                    (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 2),
-                    hudColor,
-                    true);
-        });
+        HudRenderCallback.EVENT.register(HUD::drawHUD);
 
         AutomaticInfiniteElytraClient.instance = this;
-
+        LOGGER.info("I believe I can fly...");
     }
 
     public static void rotatePlayer(MinecraftClient minecraftClient){
         assert minecraftClient.player != null;
         Random random = new Random();
         int randomPitch = random.nextInt(2) - 1;
-        if(instance.rotating) {
+        if(rotating) {
             minecraftClient.player.setYaw((float) (minecraftClient.player.getYaw(0) + rotationAmount + (Math.random() * 2)));
             minecraftClient.player.setPitch(minecraftClient.player.getPitch() + randomPitch);
             minecraftClient.player.sendMessage(Text.literal("Taking evasive action! ").formatted(Formatting.RED), true);
@@ -159,7 +106,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
             minecraftClient.player.stopFallFlying();
         }
         if(rotationStage >= CollisionDetectionUtil.scanAheadTicks){
-            instance.rotating = false;
+            rotating = false;
             rotationStage = 0;
             if(minecraftClient.player.checkFallFlying()) minecraftClient.player.startFallFlying();
         }
@@ -170,11 +117,9 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         if (minecraftClient.player != null) {
             rotatePlayer(minecraftClient);
             if (minecraftClient == null) minecraftClient = MinecraftClient.getInstance();
-            if (minecraftClient.player.isFallFlying())
-                    showHud = true;
+            if (minecraftClient.player.isFallFlying()) showHud = true;
                 else {
                     showHud = false;
-                    hudArray = null;
                     autoFlight = false;
                 }
                 if (minecraftClient.getDebugHud().shouldShowDebugHud())
@@ -229,16 +174,17 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
             } else {
                 pullUp = false;
                 pullDown = false;
-                hudColor = GREEN_HUD_COLOR;
+                HUD.hudColor = HUD.GREEN_HUD_COLOR;
             }
 
 
-            if (showHud && AutomaticElytraConfig.HANDLER.instance().render_hud) {
-                hudArray = HUD.generateHUD(hudArray, HUD_ELEMENTS);
-                if (autoFlight) hudColor = GREEN_HUD_COLOR;
-                else hudColor = YELLOW_HUD_COLOR;
-            } else hudArray = null;
+            HUD.tick();
             computeVelocity();
+        }
+        else{
+            showHud = false;
+            autoFlight = false;
+            rotating = false;
         }
     }
 

@@ -1,7 +1,8 @@
 package io.github.autoinfelytra;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.xpple.clientarguments.arguments.CBlockPosArgumentType;
+import dev.xpple.clientarguments.arguments.CBlockPosArgument;
+import io.github.autoinfelytra.autopilot.Autopilot;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -29,7 +30,7 @@ public class Commands {
                 if(AutomaticElytraConfig.HANDLER.instance().autopilot){
                     if(AutomaticInfiniteElytraClient.autoFlight) {
                         Autopilot.setLocation(pos);
-                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getY() + " " + pos.getZ()).formatted(Formatting.GREEN));
+                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                     }
                     else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
                 }
@@ -40,10 +41,10 @@ public class Commands {
 
     private static void SetDestinationCommand(CommandDispatcher<FabricClientCommandSource> fabricClientCommandSourceCommandDispatcher, CommandRegistryAccess commandRegistryAccess) {
         fabricClientCommandSourceCommandDispatcher.register(ClientCommandManager.literal("setDestination")
-            .then(ClientCommandManager.argument("Z", CBlockPosArgumentType.blockPos())
+            .then(ClientCommandManager.argument("Z", CBlockPosArgument.blockPos())
                 .executes(context -> {
                     assert context.getSource().getPlayer() != null;
-                    BlockPos pos = CBlockPosArgumentType.getCBlockPos(context, "Z");
+                    BlockPos pos = CBlockPosArgument.getBlockPos(context, "Z");
                     if(AutomaticElytraConfig.HANDLER.instance().autopilot){
                         if(AutomaticInfiniteElytraClient.autoFlight) {
                             Autopilot.setLocation(pos);

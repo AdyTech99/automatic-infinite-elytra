@@ -1,69 +1,78 @@
 package io.github.autoinfelytra.hud;
 
-import io.github.autoinfelytra.Autopilot;
+import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.TextColor;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Objects;
 
-import static io.github.autoinfelytra.AutomaticInfiniteElytraClient.autoFlight;
-import static io.github.autoinfelytra.AutomaticInfiniteElytraClient.getCurrentVelocity;
-
-@Environment(EnvType.CLIENT)
 public class HUD {
-    private static final MinecraftClient minecraftClient = MinecraftClient.getInstance();
-    private static int altitude = 0;
-    private static boolean isRunning = false;
-    public static ArrayList<String> generateHUD(ArrayList<String> hudArray, int HUD_ELEMENTS){
-        assert minecraftClient.player != null;
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        if(!isRunning) executorService.submit(() -> {
-            altitude = altitude(minecraftClient.player);
-        });
-        executorService.shutdown();
 
-        ItemStack itemStack = minecraftClient.player.getEquippedStack(EquipmentSlot.CHEST);
-        String[] hudString = new String[HUD_ELEMENTS];
-        if (hudArray == null) hudArray = new ArrayList<String>();
-        else hudArray.clear();
+    public static final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
+    public static final int YELLOW_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.YELLOW)).getRgb();
+    public static final int GREEN_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.GREEN)).getRgb();
 
-        if(AutomaticElytraConfig.HANDLER.instance().render_flight_mode) hudString[0] = "Flight mode: " + (autoFlight ? "Automatic" : "Manual");
-        if(Autopilot.isLanding()) hudString[0] = hudString[0] + " Landing";
-        if(Autopilot.isAutopilotRunning()) hudString[0] = hudString[0] + ", Autopilot running";
+    public static ArrayList<String> hudArray;
+    public static int hudColor = RED_HUD_COLOR;
+    public static final int HUD_ELEMENTS = 5;
 
-        if(AutomaticElytraConfig.HANDLER.instance().render_altitude) hudString[1] = "Altitude: " + altitude;
-        if(AutomaticElytraConfig.HANDLER.instance().render_speed) hudString[2] = "Speed: " + String.format("%.2f", getCurrentVelocity() * 20) + " m/s";
-        if(AutomaticElytraConfig.HANDLER.instance().render_elytra_durability) hudString[3] = "Elytra Durability: " + String.valueOf(itemStack.getMaxDamage() - itemStack.getDamage());
-        if(Autopilot.isAutopilotRunning() && AutomaticElytraConfig.HANDLER.instance().render_autopilot_coords) hudString[4] = "Autopilot: " + Autopilot.getDestination().getX() + " " + Autopilot.getDestination().getZ() + " (" + Math.round(Math.pow(Autopilot.getDestination().getSquaredDistance(minecraftClient.player.getBlockPos()), 0.5)) + ")";
-
-        for(int i = 0; i < HUD_ELEMENTS; i++){
-            if(hudString[i] != null && !hudString[i].isEmpty()) hudArray.add(hudString[i]);
-        }
-        return hudArray;
+    public static void tick(){
+        if (AutomaticInfiniteElytraClient.showHud && AutomaticElytraConfig.HANDLER.instance().render_hud) {
+            hudArray = HUDHelper.generateHUD(hudArray, HUD_ELEMENTS);
+            if (AutomaticInfiniteElytraClient.autoFlight) hudColor = GREEN_HUD_COLOR;
+            else hudColor = YELLOW_HUD_COLOR;
+        } else hudArray = null;
     }
+    public static void drawHUD(DrawContext drawContext, float v) {
+        drawContext.draw();
 
-    private static int altitude(PlayerEntity player){
-        isRunning = true;
-        World world = player.getWorld();
-        BlockPos blockPos = player.getBlockPos();
-        while(world.getBlockState(blockPos).isAir() && !isOverVoid(blockPos)){
-            blockPos = blockPos.down();
-            if(isOverVoid(blockPos)) return player.getBlockY() - blockPos.getY();
-        }
-        isRunning = false;
-        return player.getBlockY() - blockPos.getY();
-    }
+        //FLIGHT MODE
+        if(hudArray != null && hudArray.size() >= 1) drawContext.drawText(
+                MinecraftClient.getInstance().textRenderer,
+                hudArray.get(0),
+                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
+                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -2),
+                hudColor,
+                true);
 
-    private static boolean isOverVoid(BlockPos blockPos){
-        return blockPos.getY() < -64;
+        //ALTITUDE
+        if(hudArray != null && hudArray.size() >= 2) drawContext.drawText(
+                MinecraftClient.getInstance().textRenderer,
+                hudArray.get(1),
+                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
+                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -1),
+                hudColor,
+                true);
+
+        //SPEED
+        if(hudArray != null && hudArray.size() >= 3) drawContext.drawText(
+                MinecraftClient.getInstance().textRenderer,
+                hudArray.get(2),
+                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
+                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 0),
+                hudColor,
+                true);
+
+        //ELYTRA DURABILITY
+        if(hudArray != null && hudArray.size() >= 4) drawContext.drawText(
+                MinecraftClient.getInstance().textRenderer,
+                hudArray.get(3),
+                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
+                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 1),
+                hudColor,
+                true);
+
+        //AUTOPILOT
+        if(hudArray != null && hudArray.size() >= 5) drawContext.drawText(
+                MinecraftClient.getInstance().textRenderer,
+                hudArray.get(4),
+                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
+                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 2),
+                hudColor,
+                true);
     }
 }

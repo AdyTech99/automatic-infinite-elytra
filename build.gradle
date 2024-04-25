@@ -46,7 +46,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modApi "com.terraformersmc:modmenu:${project.modmenu}"
-	modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl}")
+	//modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${project.yacl}")
+	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl}"
 
 	include modImplementation("dev.xpple:clientarguments:${project.clientarguments}")
 
