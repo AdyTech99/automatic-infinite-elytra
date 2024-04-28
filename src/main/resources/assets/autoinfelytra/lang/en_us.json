@@ -14,6 +14,8 @@
   "yacl3.config.automatic-elytra:config.render_autopilot_coords": "Show Autopilot Coordinates in HUD",
   "yacl3.config.automatic-elytra:config.do_landing": "Perform Automatic Landing",
   "yacl3.config.automatic-elytra:config.autopilot": "Activate Autopilot",
+  "yacl3.config.automatic-elytra:config.record_analytics": "Record Flight Analytics",
+  "yacl3.config.automatic-elytra:config.auto_send_analytics": "Automatically print analytics",
 
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "Automatic Elytra HUD Settings",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "Automatic Elytra Flight Settings",
@@ -27,6 +29,8 @@
   "yacl3.config.automatic-elytra:config.anti_collision.desc": "This Utility will automatically stop elytra flight and attempt to turn if there is an obstacle ahead. It only works in Automatic Flight Mode. Please note that the utility is not foolproof; it is best to not completely rely on it.",
   "yacl3.config.automatic-elytra:config.distance_between_sentences.desc": "Line Spacing between HUD sentences",
   "yacl3.config.automatic-elytra:config.do_landing.desc": "This module will automatically attempt to land the player when the player has arrived at the destination set in the Autopilot.",
+  "yacl3.config.automatic-elytra:config.record_analytics.desc": "This feature will automatically save data of your last flight. You can get this data by running the command /flightanalytics",
+  "yacl3.config.automatic-elytra:config.auto_send_analytics.desc": "Automatically prints analytics after every flight without having to run /flightanalytics",
 
   "yacl3.config.automatic-elytra:config.x_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means leftmost",
   "yacl3.config.automatic-elytra:config.y_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means upmost",

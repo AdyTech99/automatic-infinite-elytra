@@ -96,7 +96,8 @@ public class AutomaticElytraConfig {
     @AutoGen(category = "Automatic_Elytra_Flight", group = "Autopilot_Main")
     @MasterTickBox(value = {
             "render_autopilot_coords",
-            "do_landing"
+            "do_landing",
+            "record_analytics"
     })
     public boolean autopilot = true;
 
@@ -110,6 +111,15 @@ public class AutomaticElytraConfig {
     @TickBox
     public boolean render_autopilot_coords = true;
 
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Flight", group = "Autopilot_Main")
+    @MasterTickBox(value = "auto_send_analytics")
+    public boolean record_analytics = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Flight", group = "Autopilot_Main")
+    @TickBox
+    public boolean auto_send_analytics = false;
 
     public static Screen createScreen(@Nullable Screen parent) {
         return HANDLER.generateGui().generateScreen(parent);

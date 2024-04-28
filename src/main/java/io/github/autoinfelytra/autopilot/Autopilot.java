@@ -4,12 +4,18 @@ import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Autopilot {
     private static BlockPos destination;
@@ -20,6 +26,9 @@ public class Autopilot {
     private static float targetYaw;
     private static float turnAmount;
     private static final int destinationLeeway = 16;
+    private static int lastDistanceToDestination = Integer.MAX_VALUE;
+
+    private static ScheduledExecutorService executorService;
 
     private static boolean landing;
 
@@ -37,12 +46,25 @@ public class Autopilot {
         return (MathHelper.wrapDegrees((float)(Math.atan2(f, d) * 57.2957763671875) - 90.0f));
     }
 
+    public static void initNewFlight(BlockPos blockPos){
+        if(AutomaticElytraConfig.HANDLER.instance().record_analytics){
+            Autopilot.init();
+            destination = blockPos;
+
+            FlightAnalytics.setStartTime(player.age);
+            FlightAnalytics.setDistance(((int) Math.sqrt(player.getBlockPos().getSquaredDistance(destination))));
+            FlightAnalytics.setStartDurability(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE));
+            FlightAnalytics.startFlying();
+        }
+        setLocation(blockPos);
+    }
 
     public static void setLocation(BlockPos blockPos) {
         Autopilot.init();
         destination = blockPos;
         prevDestination = destination.mutableCopy();
         targetYaw = getTargetYaw(EntityAnchorArgumentType.EntityAnchor.EYES, destination.toCenterPos());
+
     }
 
     public static void unsetLocation() {
@@ -65,23 +87,44 @@ public class Autopilot {
     }
 
     public static void tick() {
-        land();
-        if(player == null || player.getBlockPos() == null){
+        if(player == null || player.getBlockPos() == null || destination == null || !player.isFallFlying()){
             destination = null;
             targetYaw = Integer.MIN_VALUE;
+            lastDistanceToDestination = Integer.MAX_VALUE;
             return;
         }
-        if (!player.isFallFlying()) destination = null;
         if (destination == null) return;
+        if(!landing)
+            if(executorService != null) executorService.shutdown();
 
         destination = new BlockPos(destination.getX(), player.getBlockY(), destination.getZ());
-        if (Math.pow(player.getBlockPos().getSquaredDistance(destination), 0.5) <= destinationLeeway) {
+        if (isAtDestination()) {
             player.sendMessage(Text.literal("[Automatic Elytra Autopilot] You have arrived").formatted(Formatting.GREEN));
-            if(AutomaticElytraConfig.HANDLER.instance().do_landing) player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN));
-            destination = null;
-            landing = true;
+
+
+            if(AutomaticElytraConfig.HANDLER.instance().record_analytics) {
+                FlightAnalytics.setTime((player.age - FlightAnalytics.getStartTime()) / 20);
+                FlightAnalytics.setDurability_lost(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE) - FlightAnalytics.getStartDurability());
+                FlightAnalytics.flightDone();
+                if(AutomaticElytraConfig.HANDLER.instance().auto_send_analytics) FlightAnalytics.printAnalytics(player);
+            }
+
+            if(AutomaticElytraConfig.HANDLER.instance().do_landing) {
+                player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN));
+                destination = null;
+                landing = true;
+                initLanding();
+            }
         }
         target();
+    }
+
+    public static void initLanding(){
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleWithFixedDelay(Autopilot::land, 0, 20, TimeUnit.MILLISECONDS);
+        if(!landing){
+            executorService.shutdown();
+        }
     }
 
     public static void land() {
@@ -95,6 +138,21 @@ public class Autopilot {
             player.setYaw((float) (player.getYaw() + turnAmount / 1.8));
         }
     }
+
+    public static boolean isAtDestination(){
+        if(Math.sqrt(player.getBlockPos().getSquaredDistance(destination)) > destinationLeeway) return false;
+        if(Math.sqrt(player.getBlockPos().getSquaredDistance(destination)) == 0) return true;
+        else {
+            if(lastDistanceToDestination < Math.sqrt(player.getBlockPos().getSquaredDistance(destination))){
+                return true;
+            }
+            else {
+                lastDistanceToDestination = (int) Math.sqrt(player.getBlockPos().getSquaredDistance(destination));
+                return false;
+            }
+        }
+    }
+
 
     public static boolean isAutopilotRunning(){
         return destination != null;
@@ -110,9 +168,5 @@ public class Autopilot {
 
     public static BlockPos getPrevDestination() {
         return prevDestination.mutableCopy();
-    }
-
-    public static boolean isAtDestination(){
-        return Math.pow(player.getBlockPos().getSquaredDistance(destination), 0.5) <= destinationLeeway;
     }
 }
