@@ -30,14 +30,14 @@ public class Commands {
             .executes(context -> {
                 assert context.getSource().getPlayer() != null;
                 BlockPos pos = Autopilot.getPrevDestination();
-                if(AutomaticElytraConfig.HANDLER.instance().autopilot){
+                if(pos != null){
                     if(AutomaticInfiniteElytraClient.autoFlight) {
                         Autopilot.initNewFlight(pos);
                         context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                     }
                     else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
                 }
-                else context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is disabled. Please enable it in the Config.").formatted(Formatting.RED));
+                else context.getSource().getPlayer().sendMessage(Text.literal("Previous destination is null").formatted(Formatting.RED));
                 return 1;
             }));
     }
@@ -50,7 +50,7 @@ public class Commands {
                     //BlockPos pos = CBlockPosArgument.getBlockPos(context, "Z");
                     ColumnPos columnPos = CColumnPosArgument.getColumnPos(context, "destination");
                     BlockPos pos = new BlockPos(columnPos.x(), 0, columnPos.z());
-                    if(AutomaticElytraConfig.HANDLER.instance().autopilot){
+                    if(true){
                         if(AutomaticInfiniteElytraClient.autoFlight) {
                             Autopilot.initNewFlight(pos);
                             context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));

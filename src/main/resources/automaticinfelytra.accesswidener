@@ -1,2 +1,4 @@
 accessWidener v2 named
 accessible field net/minecraft/entity/Entity pitch F
+accessible field net/minecraft/client/util/Window scaledWidth I
+accessible field net/minecraft/client/util/Window scaledHeight I

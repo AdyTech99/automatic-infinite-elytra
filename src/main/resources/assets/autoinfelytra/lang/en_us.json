@@ -17,13 +17,14 @@
   "yacl3.config.automatic-elytra:config.record_analytics": "Record Flight Analytics",
   "yacl3.config.automatic-elytra:config.auto_send_analytics": "Automatically print analytics",
 
-  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "Automatic Elytra HUD Settings",
-  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "Automatic Elytra Flight Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "HUD Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "Flight Settings",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Autopilot": "Automatic Elytra Autopilot Settings",
 
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Appearance": "HUD Appearance",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Settings": "HUD Settings",
-  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autopilot_Main": "Autopilot Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autoflight": "Infinite Flight Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autopilot": "Autopilot Settings",
 
   "yacl3.config.automatic-elytra:config.max_altitude.desc": "Maximum Altitude where pulling up will occur. Note: The true flying maximum altitude may be 60 or 70 blocks more than this. It is recommended to keep this number over 100 blocks above terrain level",
   "yacl3.config.automatic-elytra:config.anti_collision.desc": "This Utility will automatically stop elytra flight and attempt to turn if there is an obstacle ahead. It only works in Automatic Flight Mode. Please note that the utility is not foolproof; it is best to not completely rely on it.",

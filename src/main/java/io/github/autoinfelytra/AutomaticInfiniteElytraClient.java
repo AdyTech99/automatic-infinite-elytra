@@ -85,7 +85,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         lastPressed = false;
         ClientTickEvents.END_CLIENT_TICK.register(e -> {
             onTick();
-            if(AutomaticElytraConfig.HANDLER.instance().autopilot) Autopilot.tick();
+            if(true) Autopilot.tick();
         });
         HudRenderCallback.EVENT.register(HUD::drawHUD);
 
@@ -141,12 +141,12 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
                 assert minecraftClient.world != null;
                 if (AutomaticElytraConfig.HANDLER.instance().anti_collision)
                     CollisionDetectionUtil.cancelFlightIfObstacleDetected(minecraftClient.player, minecraftClient.world);
-                if (minecraftClient.player.getY() >= AutomaticElytraConfig.HANDLER.instance().max_altitude)
+                if (HUDHelper.getAltitude() >= AutomaticElytraConfig.HANDLER.instance().max_altitude)
                     isDescending = true;
                 if (isDescending) {
                     pullUp = false;
                     pullDown = true;
-                    if (currentVelocity >= pullDownMaxVelocity && AutomaticElytraConfig.HANDLER.instance().max_altitude >= minecraftClient.player.getY()) {
+                    if (currentVelocity >= pullDownMaxVelocity && AutomaticElytraConfig.HANDLER.instance().max_altitude >= HUDHelper.getAltitude()) {
                         isDescending = false;
                         pullDown = false;
                         pullUp = true;

@@ -26,7 +26,7 @@ public class HUDHelper {
     private static final MinecraftClient minecraftClient = MinecraftClient.getInstance();
     private static int altitude = 0;
     private static boolean isRunning = false;
-    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private static ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
     public static void init(){
         service.scheduleWithFixedDelay(() -> {
@@ -40,6 +40,7 @@ public class HUDHelper {
 
     public static void exit(){
         service.shutdownNow();
+        service = Executors.newSingleThreadScheduledExecutor();
     }
     public static ArrayList<String> generateHUD(ArrayList<String> hudArray, int HUD_ELEMENTS){
         assert minecraftClient.player != null;
@@ -80,6 +81,10 @@ public class HUDHelper {
             if(counter >= 20000) return Integer.MAX_VALUE;
         }
         return player.getBlockY() - blockPos.getY();
+    }
+
+    public static int getAltitude() {
+        return altitude;
     }
 
     private static boolean isOverVoid(BlockPos blockPos){

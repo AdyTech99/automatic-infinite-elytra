@@ -167,6 +167,7 @@ public class Autopilot {
     }
 
     public static BlockPos getPrevDestination() {
-        return prevDestination.mutableCopy();
+        if(prevDestination != null) return prevDestination.mutableCopy();
+        else return null;
     }
 }
