@@ -1,6 +1,8 @@
 package io.github.autoinfelytra.autopilot;
 
 import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -9,8 +11,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
+@Environment(EnvType.CLIENT)
 public class CollisionDetectionUtil {
-
     public static final int scanAheadTicks = 5;
 
     public static void cancelFlightIfObstacleDetected(PlayerEntity player, World world) {

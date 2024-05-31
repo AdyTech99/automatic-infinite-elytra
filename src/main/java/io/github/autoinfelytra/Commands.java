@@ -5,6 +5,8 @@ import dev.xpple.clientarguments.arguments.CColumnPosArgument;
 import io.github.autoinfelytra.autopilot.Autopilot;
 import io.github.autoinfelytra.autopilot.FlightAnalytics;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -18,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColumnPos;
 
 public class Commands {
+    @Environment(EnvType.CLIENT)
     public static void registerCommands(){
         ClientCommandRegistrationCallback.EVENT.register(Commands::SetDestinationCommand);
         ClientCommandRegistrationCallback.EVENT.register(Commands::SetLastDestinationCommand);

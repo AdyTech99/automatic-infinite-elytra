@@ -2,3 +2,6 @@ accessWidener v2 named
 accessible field net/minecraft/entity/Entity pitch F
 accessible field net/minecraft/client/util/Window scaledWidth I
 accessible field net/minecraft/client/util/Window scaledHeight I
+accessible field net/minecraft/client/sound/SoundManager soundSystem Lnet/minecraft/client/sound/SoundSystem;
+accessible field net/minecraft/client/sound/SoundSystem sounds Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/client/sound/SoundSystem sources Ljava/util/Map;

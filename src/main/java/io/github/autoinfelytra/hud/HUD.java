@@ -2,14 +2,17 @@ package io.github.autoinfelytra.hud;
 
 import io.github.autoinfelytra.AutomaticInfiniteElytraClient;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
+@Environment(EnvType.CLIENT)
 public class HUD {
 
     public static final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
@@ -30,12 +33,17 @@ public class HUD {
     public static void drawHUD(DrawContext drawContext, float v) {
         drawContext.draw();
 
+        int x = (MinecraftClient.getInstance().getWindow().getWidth() * AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud)/2000;
+        int y = ((MinecraftClient.getInstance().getWindow().getHeight()) * AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud)/2000;
+
+        //MinecraftClient.getInstance().player.sendMessage(Text.literal(String.valueOf((MinecraftClient.getInstance().getWindow().getHeight()))), true);
+
         //FLIGHT MODE
         if(hudArray != null && hudArray.size() >= 1) drawContext.drawText(
                 MinecraftClient.getInstance().textRenderer,
                 hudArray.get(0),
-                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -2),
+                x,
+                (int) (y + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -2),
                 hudColor,
                 true);
 
@@ -43,8 +51,8 @@ public class HUD {
         if(hudArray != null && hudArray.size() >= 2) drawContext.drawText(
                 MinecraftClient.getInstance().textRenderer,
                 hudArray.get(1),
-                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -1),
+                x,
+                (int) (y + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * -1),
                 hudColor,
                 true);
 
@@ -52,8 +60,8 @@ public class HUD {
         if(hudArray != null && hudArray.size() >= 3) drawContext.drawText(
                 MinecraftClient.getInstance().textRenderer,
                 hudArray.get(2),
-                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 0),
+                x,
+                (int) (y + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 0),
                 hudColor,
                 true);
 
@@ -61,8 +69,8 @@ public class HUD {
         if(hudArray != null && hudArray.size() >= 4) drawContext.drawText(
                 MinecraftClient.getInstance().textRenderer,
                 hudArray.get(3),
-                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 1),
+                x,
+                (int) (y + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 1),
                 hudColor,
                 true);
 
@@ -70,8 +78,8 @@ public class HUD {
         if(hudArray != null && hudArray.size() >= 5) drawContext.drawText(
                 MinecraftClient.getInstance().textRenderer,
                 hudArray.get(4),
-                AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud,
-                (int) (AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 2),
+                x,
+                (int) (y + AutomaticElytraConfig.HANDLER.instance().distance_between_sentences * 2),
                 hudColor,
                 true);
     }

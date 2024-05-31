@@ -1,0 +1,51 @@
+{
+  "yacl3.config.automatic-elytra:config.x_coordinates_of_hud": "X Координата статуса HUD",
+  "yacl3.config.automatic-elytra:config.y_coordinates_of_hud": "Y Координата статуса HUD",
+  "yacl3.config.automatic-elytra:config.distance_between_sentences": "Расстояние между строками HUD",
+  "yacl3.config.automatic-elytra:config.render_hud": "Рендер HUD",
+  "yacl3.config.automatic-elytra:config.max_altitude": "Максимальная высота",
+  "yacl3.config.automatic-elytra:config.anti_collision": "Использовать коллизию для обноружения препятствий",
+
+  "yacl3.config.automatic-elytra:config.render_flight_mode": "Показывать Flight Mode в HUD",
+  "yacl3.config.automatic-elytra:config.render_altitude": "Показывать высоту в HUD",
+  "yacl3.config.automatic-elytra:config.render_speed": "Показывать скорость полёта в HUD",
+  "yacl3.config.automatic-elytra:config.render_elytra_durability": "Отображать прочность элитр в HUD",
+  "yacl3.config.automatic-elytra:config.render_autopilot_coords": "Показывать координаты автопилота в HUD",
+  "yacl3.config.automatic-elytra:config.do_landing": "Выполнить автоматическую посадку",
+  "yacl3.config.automatic-elytra:config.autopilot": "Активировать автопилот",
+
+  "yacl3.config.automatic-elytra:config.play_music": "Воспроизводить музыку во время автополета",
+  "yacl3.config.automatic-elytra:config.volume": "Громкость музыки",
+  "yacl3.config.automatic-elytra:config.play_embark": "Воспроизвести песню 'В путь'",
+  "yacl3.config.automatic-elytra:config.play_clouds": "Воспроизвести песню 'Сквозь облака'",
+  "yacl3.config.automatic-elytra:config.play_sunshine": "Воспроизвести песню 'Первый луч солнца'",
+  "yacl3.config.automatic-elytra:config.play_feeling": "Воспроизвести песню 'Чувство, как никогда прежде'",
+  "yacl3.config.automatic-elytra:config.play_homesick": "Воспроизвести песню 'Тоска по дому'",
+  "yacl3.config.automatic-elytra:config.play_wait_disc": "Воспроизвести музыкальный диск 'Wait'",
+  "yacl3.config.automatic-elytra:config.play_otherside_disc": "Воспроизвести музыкальный диск 'Otherside'",
+  "yacl3.config.automatic-elytra:config.play_pigstep_disc": "Воспроизвести музыкальный диск 'Pigstep'",
+  "yacl3.config.automatic-elytra:config.play_mellohi_disc": "Воспроизвести музыкальный диск 'Mellohi'",
+
+
+
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "AutoElytra настройки HUD",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "AutoElytra настройки полёта",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Autopilot": "AutoElytra настройки автопилота",
+
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Appearance": "Внешний вид HUD",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Settings": "Настройки HUD",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autopilot_Main": "Настройки автопилота",
+
+  "yacl3.config.automatic-elytra:config.max_altitude.desc": "Максимальная высота, на которой произойдет подъем. Примечание. Истинная максимальная высота полета может быть на 60 или 70 блоков больше этой. Рекомендуется держать это число на высоте более 100 блоков над уровнем местности.",
+  "yacl3.config.automatic-elytra:config.anti_collision.desc": "Эта функция автоматически остановит полет элитры и попытается повернуть, если впереди возникнет препятствие. Работает только в автоматическом режиме полета. Обратите внимание, что мод не является надёжным и лучше не полностью на него полагаться.",
+  "yacl3.config.automatic-elytra:config.distance_between_sentences.desc": "Интервал между предложениями в HUD",
+  "yacl3.config.automatic-elytra:config.do_landing.desc": "AutoElytra попытается посадить игрока в точке назначения которую вы укажите в автопилоте",
+
+  "yacl3.config.automatic-elytra:config.x_coordinates_of_hud.desc": "Координаты того, где должен находиться HUD. Координата 0 означает крайний левый угол экрана.",
+  "yacl3.config.automatic-elytra:config.y_coordinates_of_hud.desc": "Координаты того места, где HUD должен появиться на экране. Координата 0 означает самый верхний",
+
+
+
+  "text.elytraautoflight.title" : "AutoElytra",
+  "key.elytraautoflight.toggle" : "Переключатель AutoElytra"
+}

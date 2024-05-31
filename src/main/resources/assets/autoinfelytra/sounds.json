@@ -1,0 +1,27 @@
+{
+  "sweeping_through_the_clouds": {
+    "sounds": [
+      "autoinfelytra:sweeping_through_the_clouds"
+    ]
+  },
+  "the_first_ray_of_the_sunshine": {
+    "sounds": [
+      "autoinfelytra:the_first_ray_of_the_sunshine"
+    ]
+  },
+  "embark_on_a_new_journey": {
+    "sounds": [
+      "autoinfelytra:embark_on_a_new_journey"
+    ]
+  },
+  "homesick": {
+    "sounds": [
+      "autoinfelytra:homesick"
+    ]
+  },
+  "a_feeling_like_never_before": {
+    "sounds": [
+      "autoinfelytra:a_feeling_like_never_before"
+    ]
+  }
+}

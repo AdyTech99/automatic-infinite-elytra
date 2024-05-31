@@ -3,10 +3,9 @@ package io.github.autoinfelytra.config;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.autogen.*;
+import dev.isxander.yacl3.config.v2.api.autogen.Boolean;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
-import io.github.autoinfelytra.hud.HUDHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -25,8 +24,6 @@ public class AutomaticElytraConfig {
 
     public final int windowWidth = 1000;
     public final int windowHeight = 1000;
-
-
 
 
     @SerialEntry(comment = "default = 20")
@@ -81,13 +78,13 @@ public class AutomaticElytraConfig {
 
     @SerialEntry(comment = "default = 20")
     @AutoGen(category = "Automatic_Elytra_HUD", group = "HUD_Appearance")
-    @IntField(min = 0)
+    @IntSlider(min = 0, max = 1000, step = 1)
     public Integer x_coordinates_of_hud = 20;
 
     @SerialEntry(comment = "default = 30")
     @AutoGen(category = "Automatic_Elytra_HUD", group = "HUD_Appearance")
-    @IntField(min = 0)
-    public Integer y_coordinates_of_hud = 30;
+    @IntSlider(min = 0, max = 1000, step = 1)
+    public Integer y_coordinates_of_hud = 200;
 
     @SerialEntry(comment = "default = 20")
     @AutoGen(category = "Automatic_Elytra_HUD", group = "HUD_Appearance")
@@ -116,6 +113,73 @@ public class AutomaticElytraConfig {
     @AutoGen(category = "Automatic_Elytra_Flight", group = "Autopilot")
     @TickBox
     public boolean auto_send_analytics = false;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @MasterTickBox(value = {
+            "Volume",
+            "play_embark",
+            "play_clouds",
+            "play_sunshine",
+            "play_homesick",
+            "play_feeling",
+            "play_wait_disc",
+            "play_otherside_disc",
+            "play_pigstep_disc",
+            "play_mellohi_disc"
+    })
+    public boolean play_music = false;
+
+    /*@SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @IntSlider(min = 0, max = 100, step = 1)*/
+    public int volume = Integer.MAX_VALUE;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_wait_disc = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_embark = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_clouds = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_otherside_disc = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_sunshine = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_pigstep_disc = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_mellohi_disc = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_feeling = true;
+
+    @SerialEntry
+    @AutoGen(category = "Automatic_Elytra_Music")
+    @Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+    public boolean play_homesick = true;
+
 
     public static Screen createScreen(@Nullable Screen parent) {
         return HANDLER.generateGui().generateScreen(parent);

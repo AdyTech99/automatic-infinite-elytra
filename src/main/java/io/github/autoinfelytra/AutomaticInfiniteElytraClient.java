@@ -5,6 +5,10 @@ import io.github.autoinfelytra.autopilot.CollisionDetectionUtil;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import io.github.autoinfelytra.hud.HUD;
 import io.github.autoinfelytra.hud.HUDHelper;
+import io.github.autoinfelytra.music.MusicHelper;
+import io.github.autoinfelytra.music.MusicPlayer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -12,20 +16,19 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
+@Environment(EnvType.CLIENT)
 public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientModInitializer {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("autoinfelytra");
+    public static final String MOD_ID = "autoinfelytra";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static KeyBinding keyBinding;
     public static AutomaticInfiniteElytraClient instance;
@@ -69,6 +72,13 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         AutomaticElytraConfig.HANDLER.load();
         LOGGER.info("Sky's the beginning!");
 
+        MusicPlayer.EMBARK = MusicHelper.registerSoundEvent("embark_on_a_new_journey");
+        MusicPlayer.FEELING = MusicHelper.registerSoundEvent("a_feeling_like_never_before");
+        MusicPlayer.SWEEPING_CLOUDS_SOUND = MusicHelper.registerSoundEvent("sweeping_through_the_clouds");
+        MusicPlayer.SUNSHINE = MusicHelper.registerSoundEvent("the_first_ray_of_the_sunshine");
+        MusicPlayer.HOMESICK = MusicHelper.registerSoundEvent("homesick");
+
+
         Commands.registerCommands();
         Autopilot.init();
         HUDHelper.init();
@@ -85,7 +95,9 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         lastPressed = false;
         ClientTickEvents.END_CLIENT_TICK.register(e -> {
             onTick();
-            if(true) Autopilot.tick();
+            Autopilot.tick();
+            if(autoFlight && AutomaticElytraConfig.HANDLER.instance().play_music) MusicPlayer.playMusic(minecraftClient.player);
+            else if(MusicPlayer.isPlayingMusic()) MusicPlayer.stopAllMusic();
         });
         HudRenderCallback.EVENT.register(HUD::drawHUD);
 

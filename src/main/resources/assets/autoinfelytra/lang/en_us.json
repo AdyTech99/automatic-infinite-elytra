@@ -17,9 +17,24 @@
   "yacl3.config.automatic-elytra:config.record_analytics": "Record Flight Analytics",
   "yacl3.config.automatic-elytra:config.auto_send_analytics": "Automatically print analytics",
 
+  "yacl3.config.automatic-elytra:config.play_music": "Play music during autoflight",
+  "yacl3.config.automatic-elytra:config.volume": "Music Volume",
+  "yacl3.config.automatic-elytra:config.play_embark": "Play Embark On A New Journey",
+  "yacl3.config.automatic-elytra:config.play_clouds": "Play Sweeping Through The Clouds",
+  "yacl3.config.automatic-elytra:config.play_sunshine": "Play The First Ray Of Sunshine",
+  "yacl3.config.automatic-elytra:config.play_feeling": "Play A Feeling Like Never Before",
+  "yacl3.config.automatic-elytra:config.play_homesick": "Play Homesick",
+  "yacl3.config.automatic-elytra:config.play_wait_disc": "Play Wait Music Disc",
+  "yacl3.config.automatic-elytra:config.play_otherside_disc": "Play Otherside Music Disc",
+  "yacl3.config.automatic-elytra:config.play_pigstep_disc": "Play Pigstep Music Disc",
+  "yacl3.config.automatic-elytra:config.play_mellohi_disc": "Play Mellohi Music Disc",
+
+
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "HUD Settings",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "Flight Settings",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Autopilot": "Automatic Elytra Autopilot Settings",
+  "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Music": "Music Settings",
+
 
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Appearance": "HUD Appearance",
   "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Settings": "HUD Settings",
@@ -32,6 +47,7 @@
   "yacl3.config.automatic-elytra:config.do_landing.desc": "This module will automatically attempt to land the player when the player has arrived at the destination set in the Autopilot.",
   "yacl3.config.automatic-elytra:config.record_analytics.desc": "This feature will automatically save data of your last flight. You can get this data by running the command /flightanalytics",
   "yacl3.config.automatic-elytra:config.auto_send_analytics.desc": "Automatically prints analytics after every flight without having to run /flightanalytics",
+  "yacl3.config.automatic-elytra:config.play_music.desc": "Plays some music while automatic flight is active. Just for fun! There will be a few main music tracks that will play on repeat, if you don't like some of them, you can disable them below.",
 
   "yacl3.config.automatic-elytra:config.x_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means leftmost",
   "yacl3.config.automatic-elytra:config.y_coordinates_of_hud.desc": "The coordinates of where the HUD should appear on the screen. A coordinate of 0 means upmost",
