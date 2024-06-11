@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import dev.xpple.clientarguments.arguments.CColumnPosArgument;
 import io.github.autoinfelytra.autopilot.Autopilot;
 import io.github.autoinfelytra.autopilot.FlightAnalytics;
+import io.github.autoinfelytra.autopilot.TraverseArea;
 import io.github.autoinfelytra.config.AutomaticElytraConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,6 +26,7 @@ public class Commands {
         ClientCommandRegistrationCallback.EVENT.register(Commands::SetDestinationCommand);
         ClientCommandRegistrationCallback.EVENT.register(Commands::SetLastDestinationCommand);
         CommandRegistrationCallback.EVENT.register(Commands::unsetDestinationCommand);
+        ClientCommandRegistrationCallback.EVENT.register(Commands::traverseAreaCommand);
         CommandRegistrationCallback.EVENT.register(Commands::analyticsCommand);
     }
 
@@ -35,7 +37,7 @@ public class Commands {
                 BlockPos pos = Autopilot.getPrevDestination();
                 if(pos != null){
                     if(AutomaticInfiniteElytraClient.autoFlight) {
-                        Autopilot.initNewFlight(pos);
+                        Autopilot.initNewFlight(pos, false);
                         context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                     }
                     else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
@@ -52,10 +54,10 @@ public class Commands {
                     assert context.getSource().getPlayer() != null;
                     //BlockPos pos = CBlockPosArgument.getBlockPos(context, "Z");
                     ColumnPos columnPos = CColumnPosArgument.getColumnPos(context, "destination");
-                    BlockPos pos = new BlockPos(columnPos.x(), 0, columnPos.z());
+                    BlockPos pos = AutomaticInfiniteElytra.blockPos(columnPos);
                     if(true){
                         if(AutomaticInfiniteElytraClient.autoFlight) {
-                            Autopilot.initNewFlight(pos);
+                            Autopilot.initNewFlight(pos, false);
                             context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                         }
                         else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
@@ -72,6 +74,24 @@ public class Commands {
                     context.getSource().getPlayer().sendMessage(Text.literal("Autopilot deactivated."));
                     return 0;
                 }));
+    }
+
+    private static void traverseAreaCommand(CommandDispatcher<FabricClientCommandSource> fabricClientCommandSourceCommandDispatcher, CommandRegistryAccess commandRegistryAccess) {
+        fabricClientCommandSourceCommandDispatcher.register(ClientCommandManager.literal("traverseArea")
+                .then(ClientCommandManager.argument("starting", CColumnPosArgument.columnPos())
+                        .then(ClientCommandManager.argument("ending", CColumnPosArgument.columnPos())
+                            .executes(context -> {
+                                assert context.getSource().getPlayer() != null;
+                                //BlockPos pos = CBlockPosArgument.getBlockPos(context, "Z");
+                                ColumnPos starting = CColumnPosArgument.getColumnPos(context, "starting");
+                                ColumnPos ending = CColumnPosArgument.getColumnPos(context, "ending");
+                                    if(AutomaticInfiniteElytraClient.autoFlight) {
+                                        TraverseArea.init(starting, ending);
+                                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot traversal in progress").formatted(Formatting.GREEN));
+                                    }
+                                    else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
+                                return 1;
+                            }))));
     }
 
 

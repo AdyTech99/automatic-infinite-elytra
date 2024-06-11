@@ -25,8 +25,9 @@ public class Autopilot {
     private static BlockPos prevDestination;
     private static PlayerEntity player;
 
-    private static boolean turning = false;
+    private static boolean doLanding = AutomaticElytraConfig.HANDLER.instance().do_landing;
     private static float targetYaw;
+    private static boolean instantYaw;
     private static float turnAmount;
     private static final int destinationLeeway = 16;
     private static int lastDistanceToDestination = Integer.MAX_VALUE;
@@ -49,7 +50,7 @@ public class Autopilot {
         return (MathHelper.wrapDegrees((float)(Math.atan2(f, d) * 57.2957763671875) - 90.0f));
     }
 
-    public static void initNewFlight(BlockPos blockPos){
+    public static void initNewFlight(BlockPos blockPos, boolean instantYaw1){
         if(AutomaticElytraConfig.HANDLER.instance().record_analytics){
             Autopilot.init();
             destination = blockPos;
@@ -59,6 +60,8 @@ public class Autopilot {
             FlightAnalytics.setStartDurability(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE));
             FlightAnalytics.startFlying();
         }
+        instantYaw = instantYaw1;
+        doLanding = AutomaticElytraConfig.HANDLER.instance().do_landing;
         setLocation(blockPos);
     }
 
@@ -72,7 +75,6 @@ public class Autopilot {
 
     public static void unsetLocation() {
         destination = null;
-        turning = false;
     }
 
     public static void courseCorrection() {
@@ -81,10 +83,13 @@ public class Autopilot {
 
     public static void target() {
         if (!MathHelper.approximatelyEquals(Math.abs(player.getYaw() - targetYaw), 0.0)) {
-            player.setYaw(MathHelper.wrapDegrees(player.getYaw() + turnAmount));
-            if(Math.abs(player.getYaw() - targetYaw) <= turnAmount * 2){
-                player.setYaw(targetYaw);
+            if(!instantYaw) {
+                player.setYaw(MathHelper.wrapDegrees(player.getYaw() + turnAmount));
+                if (Math.abs(player.getYaw() - targetYaw) <= turnAmount * 2) {
+                    player.setYaw(targetYaw);
+                }
             }
+            else player.setYaw(targetYaw);
         }
         courseCorrection();
     }
@@ -102,22 +107,24 @@ public class Autopilot {
 
         destination = new BlockPos(destination.getX(), player.getBlockY(), destination.getZ());
         if (isAtDestination()) {
-            player.sendMessage(Text.literal("[Automatic Elytra Autopilot] You have arrived").formatted(Formatting.GREEN));
+            destination = null;
+            if(!TraverseArea.isTraversalInProgress()){
+                player.sendMessage(Text.literal("[Automatic Elytra Autopilot] You have arrived").formatted(Formatting.GREEN));
+                if(AutomaticElytraConfig.HANDLER.instance().record_analytics) {
+                    FlightAnalytics.setTime((player.age - FlightAnalytics.getStartTime()) / 20);
+                    FlightAnalytics.setDurability_lost(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE) - FlightAnalytics.getStartDurability());
+                    FlightAnalytics.flightDone();
+                    if (AutomaticElytraConfig.HANDLER.instance().auto_send_analytics)
+                        FlightAnalytics.printAnalytics(player);
+                }
 
-
-            if(AutomaticElytraConfig.HANDLER.instance().record_analytics) {
-                FlightAnalytics.setTime((player.age - FlightAnalytics.getStartTime()) / 20);
-                FlightAnalytics.setDurability_lost(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE) - FlightAnalytics.getStartDurability());
-                FlightAnalytics.flightDone();
-                if(AutomaticElytraConfig.HANDLER.instance().auto_send_analytics) FlightAnalytics.printAnalytics(player);
+                if(shouldLand()) {
+                    player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN));
+                    landing = true;
+                    initLanding();
+                }
             }
-
-            if(AutomaticElytraConfig.HANDLER.instance().do_landing) {
-                player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN));
-                destination = null;
-                landing = true;
-                initLanding();
-            }
+            if(TraverseArea.isTraversalInProgress()) TraverseArea.tick();
         }
         target();
     }
@@ -131,15 +138,19 @@ public class Autopilot {
     }
 
     public static void land() {
-        landing = landing
-                && AutomaticInfiniteElytraClient.autoFlight
-                && player.isFallFlying()
-                && AutomaticElytraConfig.HANDLER.instance().do_landing
-                && !player.isTouchingWater()
-                && !player.isInLava();
+        landing = shouldLand();
         if(landing){
             player.setYaw((float) (player.getYaw() + turnAmount / 1.8));
         }
+    }
+
+    public static boolean shouldLand(){
+        return AutomaticInfiniteElytraClient.autoFlight
+                && AutomaticElytraConfig.HANDLER.instance().do_landing
+                && doLanding
+                && player.isFallFlying()
+                && !player.isTouchingWater()
+                && !player.isInLava();
     }
 
     public static boolean isAtDestination(){
