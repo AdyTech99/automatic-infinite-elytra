@@ -77,6 +77,11 @@ public class Autopilot {
         destination = null;
     }
 
+    public static void stop() {
+        destination = null;
+        TraverseArea.stop();
+    }
+
     public static void courseCorrection() {
         if (player.age % 200 == 0) setLocation(destination);
     }
@@ -126,7 +131,7 @@ public class Autopilot {
             }
             if(TraverseArea.isTraversalInProgress()) TraverseArea.tick();
         }
-        target();
+        else target();
     }
 
     public static void initLanding(){

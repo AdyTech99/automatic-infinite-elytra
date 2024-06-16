@@ -77,7 +77,7 @@ public class Commands {
     }
 
     private static void traverseAreaCommand(CommandDispatcher<FabricClientCommandSource> fabricClientCommandSourceCommandDispatcher, CommandRegistryAccess commandRegistryAccess) {
-        fabricClientCommandSourceCommandDispatcher.register(ClientCommandManager.literal("traverseArea")
+        fabricClientCommandSourceCommandDispatcher.register(ClientCommandManager.literal("exploreArea")
                 .then(ClientCommandManager.argument("starting", CColumnPosArgument.columnPos())
                         .then(ClientCommandManager.argument("ending", CColumnPosArgument.columnPos())
                             .executes(context -> {
@@ -87,7 +87,7 @@ public class Commands {
                                 ColumnPos ending = CColumnPosArgument.getColumnPos(context, "ending");
                                     if(AutomaticInfiniteElytraClient.autoFlight) {
                                         TraverseArea.init(starting, ending);
-                                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot traversal in progress").formatted(Formatting.GREEN));
+                                        context.getSource().getPlayer().sendMessage(Text.literal("Area traversal in progress").formatted(Formatting.GREEN));
                                     }
                                     else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
                                 return 1;

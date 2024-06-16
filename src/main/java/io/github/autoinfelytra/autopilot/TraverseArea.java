@@ -3,7 +3,6 @@ package io.github.autoinfelytra.autopilot;
 import io.github.autoinfelytra.AutomaticInfiniteElytra;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ColumnPos;
 
 import java.util.ArrayList;
@@ -23,6 +22,13 @@ public class TraverseArea {
         current = 0;
     }
 
+    public static void stop(){
+        coordinates.clear();
+        starting = null;
+        ending = null;
+        current = 0;
+    }
+
     public static boolean isTraversalInProgress(){
         return !coordinates.isEmpty();
     }
@@ -32,7 +38,7 @@ public class TraverseArea {
     private static void next(){
         current+=4;
         if(current >= coordinates.size()){
-            coordinates.clear();
+            stop();
             MinecraftClient.getInstance().player.sendMessage(Text.of("Done"));
             return;
         }
@@ -49,7 +55,7 @@ public class TraverseArea {
         int minZ = Math.min(pos1.z(), pos2.z());
         int maxZ = Math.max(pos1.z(), pos2.z());
 
-        for (int x = minX; x <= maxX; x+=(MinecraftClient.getInstance().options.getClampedViewDistance()*15)) {
+        for (int x = minX; x <= maxX; x+=((MinecraftClient.getInstance().options.getClampedViewDistance()*16)-1)) {
             if (x % 2 == 0) {
                 for (int z = minZ; z <= maxZ; z++) {
                     coordinates.add(new ColumnPos(x, z));
