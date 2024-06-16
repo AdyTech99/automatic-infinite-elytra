@@ -18,7 +18,7 @@ _Note: Video is **not** made by me_
 ### How to use Automatic Mode?
 **Step 1:** You will need to be flying in the air using an Elytra.<br>
 **Step 2:** Gain a bit of height; 100 blocks above ground level is recommended.<br>
-**Step 3:** Press the keybind (default 'r') to toggle Automatic Flight on.<br>
+**Step 3:** Press the keybind (default 'right alt') to toggle Automatic Flight on.<br>
 **Step 4:** Enjoy! <br>
 <br>
 ### Collision Detection Utility
