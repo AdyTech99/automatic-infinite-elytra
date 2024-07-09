@@ -142,6 +142,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
                     // If the player is flying an elytra, we start the auto flight
                     autoFlight = !autoFlight;
                     if (autoFlight) isDescending = true;
+                    else Autopilot.stop();
                 } else {
                     minecraftClient.player.sendMessage(Text.literal("[Automatic Infinite Elytra] ").formatted(Formatting.AQUA).append(Text.literal("You need to be flying!")).formatted(Formatting.RED), false); // Send a message to the player
                 }

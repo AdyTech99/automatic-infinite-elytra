@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class MusicHelper {
     public static SoundEvent registerSoundEvent(String name){
-        Identifier id = new Identifier(AutomaticInfiniteElytraClient.MOD_ID, name);
+        Identifier id = Identifier.of(AutomaticInfiniteElytraClient.MOD_ID, name);
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 }

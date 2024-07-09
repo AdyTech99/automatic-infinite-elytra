@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 
@@ -29,7 +30,7 @@ public class HUD {
             else hudColor = YELLOW_HUD_COLOR;
         } else hudArray = null;
     }
-    public static void drawHUD(DrawContext drawContext, float v) {
+    public static void drawHUD(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         drawContext.draw();
 
         int x = (MinecraftClient.getInstance().getWindow().getWidth() * AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud)/2000;

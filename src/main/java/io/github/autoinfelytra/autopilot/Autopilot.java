@@ -70,7 +70,6 @@ public class Autopilot {
         destination = blockPos;
         prevDestination = destination.mutableCopy();
         targetYaw = getTargetYaw(EntityAnchorArgumentType.EntityAnchor.EYES, destination.toCenterPos());
-
     }
 
     public static void unsetLocation() {

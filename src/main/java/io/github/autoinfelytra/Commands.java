@@ -38,6 +38,7 @@ public class Commands {
                 if(pos != null){
                     if(AutomaticInfiniteElytraClient.autoFlight) {
                         Autopilot.initNewFlight(pos, false);
+                        TraverseArea.stop();
                         context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                     }
                     else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
@@ -58,6 +59,7 @@ public class Commands {
                     if(true){
                         if(AutomaticInfiniteElytraClient.autoFlight) {
                             Autopilot.initNewFlight(pos, false);
+                            TraverseArea.stop();
                             context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
                         }
                         else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));

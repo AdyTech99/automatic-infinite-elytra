@@ -16,7 +16,7 @@ public class AutomaticElytraConfig {
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("automatic_elytra_config.json");
 
     public static final ConfigClassHandler<AutomaticElytraConfig> HANDLER = ConfigClassHandler.createBuilder(AutomaticElytraConfig.class)
-            .id(new Identifier("automatic-elytra", "config"))
+            .id(Identifier.of("automatic-elytra", "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(CONFIG_PATH)
                     .build())
