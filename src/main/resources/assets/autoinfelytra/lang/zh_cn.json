@@ -1,0 +1,55 @@
+{
+    "yacl3.config.automatic-elytra:config.x_coordinates_of_hud": "状态HUD的X坐标",
+    "yacl3.config.automatic-elytra:config.y_coordinates_of_hud": "状态HUD的Y坐标",
+    "yacl3.config.automatic-elytra:config.distance_between_sentences": "HUD行间距",
+    "yacl3.config.automatic-elytra:config.render_hud": "渲染HUD",
+    "yacl3.config.automatic-elytra:config.max_altitude": "最大飞行高度",
+    "yacl3.config.automatic-elytra:config.anti_collision": "启用碰撞检测工具",
+  
+    "yacl3.config.automatic-elytra:config.render_flight_mode": "在HUD中显示飞行模式",
+    "yacl3.config.automatic-elytra:config.render_altitude": "在HUD中显示飞行高度",
+    "yacl3.config.automatic-elytra:config.render_speed": "在HUD中显示飞行速度",
+    "yacl3.config.automatic-elytra:config.render_elytra_durability": "在HUD中显示鞘翅耐久度",
+    "yacl3.config.automatic-elytra:config.render_autopilot_coords": "在HUD中显示自动导航坐标",
+    "yacl3.config.automatic-elytra:config.do_landing": "执行自动着陆",
+    "yacl3.config.automatic-elytra:config.autopilot": "启用自动导航",
+    "yacl3.config.automatic-elytra:config.record_analytics": "记录飞行数据",
+    "yacl3.config.automatic-elytra:config.auto_send_analytics": "自动打印飞行数据",
+  
+    "yacl3.config.automatic-elytra:config.play_music": "自动飞行时播放音乐",
+    "yacl3.config.automatic-elytra:config.volume": "音乐音量",
+    "yacl3.config.automatic-elytra:config.play_embark": "播放Embark On A New Journey",
+    "yacl3.config.automatic-elytra:config.play_clouds": "播放Sweeping Through The Clouds",
+    "yacl3.config.automatic-elytra:config.play_sunshine": "播放The First Ray Of Sunshine",
+    "yacl3.config.automatic-elytra:config.play_feeling": "播放A Feeling Like Never Before",
+    "yacl3.config.automatic-elytra:config.play_homesick": "播放Homesick",
+    "yacl3.config.automatic-elytra:config.play_wait_disc": "播放Wait Music Disc",
+    "yacl3.config.automatic-elytra:config.play_otherside_disc": "播放Otherside Music Disc",
+    "yacl3.config.automatic-elytra:config.play_pigstep_disc": "播放Pigstep Music Disc",
+    "yacl3.config.automatic-elytra:config.play_mellohi_disc": "播放Mellohi Music Disc",
+  
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD": "HUD设置",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight": "飞行设置",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Autopilot": "自动导航设置",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Music": "音乐设置",
+  
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Appearance": "HUD外观",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_HUD.group.HUD_Settings": "HUD设置",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autoflight": "无限飞行设置",
+    "yacl3.config.automatic-elytra:config.category.Automatic_Elytra_Flight.group.Autopilot": "自动导航设置",
+  
+    "yacl3.config.automatic-elytra:config.max_altitude.desc": "自动拉升高度的上限值。注意：实际飞行最大高度可能比此值高60-70格，建议保持此数值高于地形100格以上",
+    "yacl3.config.automatic-elytra:config.anti_collision.desc": "该工具会在前方有障碍物时自动停止鞘翅飞行并尝试转向，仅在自动飞行模式下生效。请注意该工具并非绝对可靠，请勿完全依赖。",
+    "yacl3.config.automatic-elytra:config.distance_between_sentences.desc": "HUD信息行间距",
+    "yacl3.config.automatic-elytra:config.do_landing.desc": "当玩家抵达自动导航设定的目的地时，该模块会自动尝试着陆",
+    "yacl3.config.automatic-elytra:config.record_analytics.desc": "此功能会自动保存您最后一次飞行的数据，可通过指令/flightanalytics获取",
+    "yacl3.config.automatic-elytra:config.auto_send_analytics.desc": "每次飞行后自动打印数据，无需执行/flightanalytics指令",
+    "yacl3.config.automatic-elytra:config.play_music.desc": "在自动飞行时播放音乐（纯娱乐功能）。默认会循环播放几首主要曲目，若不喜某些曲目可在下方禁用",
+  
+    "yacl3.config.automatic-elytra:config.x_coordinates_of_hud.desc": "HUD在屏幕上的X轴坐标（0为最左侧）",
+    "yacl3.config.automatic-elytra:config.y_coordinates_of_hud.desc": "HUD在屏幕上的Y轴坐标（0为最顶部）",
+  
+    "text.elytraautoflight.title" : "无限自动鞘翅飞行",
+    "key.elytraautoflight.toggle" : "切换鞘翅飞行模式"
+  }
+  
