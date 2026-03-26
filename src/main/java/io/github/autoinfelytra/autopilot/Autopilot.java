@@ -99,7 +99,7 @@ public class Autopilot {
     }
 
     public static void tick() {
-        if(player == null || player.getBlockPos() == null || destination == null || !player.isFallFlying()){
+        if(player == null || player.getBlockPos() == null || destination == null || !player.isGliding()){
             destination = null;
             targetYaw = Integer.MIN_VALUE;
             lastDistanceToDestination = Integer.MAX_VALUE;
@@ -113,7 +113,7 @@ public class Autopilot {
         if (isAtDestination()) {
             destination = null;
             if(!TraverseArea.isTraversalInProgress()){
-                player.sendMessage(Text.literal("[Automatic Elytra Autopilot] You have arrived").formatted(Formatting.GREEN));
+                player.sendMessage(Text.literal("[Automatic Elytra Autopilot] You have arrived").formatted(Formatting.GREEN), true);
                 if(AutomaticElytraConfig.HANDLER.instance().record_analytics) {
                     FlightAnalytics.setTime((player.age - FlightAnalytics.getStartTime()) / 20);
                     FlightAnalytics.setDurability_lost(player.getEquippedStack(EquipmentSlot.CHEST).get(DataComponentTypes.DAMAGE) - FlightAnalytics.getStartDurability());
@@ -123,7 +123,7 @@ public class Autopilot {
                 }
 
                 if(shouldLand()) {
-                    player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN));
+                    player.sendMessage(Text.literal("[Automatic Elytra Autopilot] Initiating landing procedures").formatted(Formatting.GREEN), true);
                     landing = true;
                     initLanding();
                 }
@@ -152,7 +152,7 @@ public class Autopilot {
         return AutomaticInfiniteElytraClient.autoFlight
                 && AutomaticElytraConfig.HANDLER.instance().do_landing
                 && doLanding
-                && player.isFallFlying()
+                && player.isGliding()
                 && !player.isTouchingWater()
                 && !player.isInLava();
     }

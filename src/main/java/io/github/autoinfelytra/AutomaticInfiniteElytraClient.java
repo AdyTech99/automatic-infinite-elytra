@@ -11,12 +11,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -99,7 +100,10 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
             if(autoFlight && AutomaticElytraConfig.HANDLER.instance().play_music) MusicPlayer.playMusic(minecraftClient.player);
             else if(MusicPlayer.isPlayingMusic()) MusicPlayer.stopAllMusic();
         });
-        HudRenderCallback.EVENT.register(HUD::drawHUD);
+        HudElementRegistry.addLast(
+            Identifier.of("autoinfelytra", "hud"),
+            (drawContext, tickCounter) -> HUD.drawHUD(drawContext, tickCounter)
+        );
 
         AutomaticInfiniteElytraClient.instance = this;
         LOGGER.info("I believe I can fly...");
@@ -115,12 +119,12 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
             minecraftClient.player.sendMessage(Text.literal("Taking evasive action! ").formatted(Formatting.RED), true);
             autoFlight = false;
             rotationStage++;
-            minecraftClient.player.stopFallFlying();
+            minecraftClient.player.stopGliding();
         }
         if(rotationStage >= CollisionDetectionUtil.scanAheadTicks){
             rotating = false;
             rotationStage = 0;
-            if(minecraftClient.player.checkFallFlying()) minecraftClient.player.startFallFlying();
+            if(minecraftClient.player.checkGliding()) minecraftClient.player.startGliding();
         }
     }
 
@@ -129,7 +133,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
         if (minecraftClient.player != null) {
             rotatePlayer(minecraftClient);
             if (minecraftClient == null) minecraftClient = MinecraftClient.getInstance();
-            if (minecraftClient.player.isFallFlying()) showHud = true;
+            if (minecraftClient.player.isGliding()) showHud = true;
                 else {
                     showHud = false;
                     autoFlight = false;
@@ -138,7 +142,7 @@ public class AutomaticInfiniteElytraClient implements net.fabricmc.api.ClientMod
                     showHud = false;
 
             if (!lastPressed && keyBinding.isPressed()) {
-                if (minecraftClient.player.isFallFlying()) {
+                if (minecraftClient.player.isGliding()) {
                     // If the player is flying an elytra, we start the auto flight
                     autoFlight = !autoFlight;
                     if (autoFlight) isDescending = true;

@@ -108,15 +108,15 @@ public class MusicPlayer {
                 incrementMusicNumberAndWrap();
             }
 
-            isPlayingMusic = isSoundPlaying(EMBARK.getId(), MinecraftClient.getInstance().getSoundManager().soundSystem)
-                    || isSoundPlaying(SWEEPING_CLOUDS_SOUND.getId(), MinecraftClient.getInstance().getSoundManager().soundSystem)
-                    || isSoundPlaying(SUNSHINE.getId(), MinecraftClient.getInstance().getSoundManager().soundSystem)
+            isPlayingMusic = isSoundPlaying(EMBARK.id(), MinecraftClient.getInstance().getSoundManager().soundSystem)
+                    || isSoundPlaying(SWEEPING_CLOUDS_SOUND.id(), MinecraftClient.getInstance().getSoundManager().soundSystem)
+                    || isSoundPlaying(SUNSHINE.id(), MinecraftClient.getInstance().getSoundManager().soundSystem)
                     || isSoundPlaying(SoundEvents.MUSIC_DISC_WAIT.registryKey().getValue(), MinecraftClient.getInstance().getSoundManager().soundSystem)
                     || isSoundPlaying(SoundEvents.MUSIC_DISC_OTHERSIDE.registryKey().getValue(), MinecraftClient.getInstance().getSoundManager().soundSystem)
                     || isSoundPlaying(SoundEvents.MUSIC_DISC_PIGSTEP.registryKey().getValue(), MinecraftClient.getInstance().getSoundManager().soundSystem)
                     || isSoundPlaying(SoundEvents.MUSIC_DISC_MELLOHI.registryKey().getValue(), MinecraftClient.getInstance().getSoundManager().soundSystem)
-                    || isSoundPlaying(FEELING.getId(), MinecraftClient.getInstance().getSoundManager().soundSystem)
-                    || isSoundPlaying(HOMESICK.getId(), MinecraftClient.getInstance().getSoundManager().soundSystem);
+                    || isSoundPlaying(FEELING.id(), MinecraftClient.getInstance().getSoundManager().soundSystem)
+                    || isSoundPlaying(HOMESICK.id(), MinecraftClient.getInstance().getSoundManager().soundSystem);
         }
         else {
             MinecraftClient.getInstance().player.sendMessage(Text.literal("Music cannot play; your master volume is 0%"), true);
@@ -125,14 +125,14 @@ public class MusicPlayer {
 
     public static void stopAllMusic(){
         MinecraftClient.getInstance().getSoundManager().stopSounds(SoundEvents.MUSIC_DISC_WAIT.registryKey().getValue(), SoundCategory.MASTER);
-        MinecraftClient.getInstance().getSoundManager().stopSounds(EMBARK.getId(), SoundCategory.MASTER);
-        MinecraftClient.getInstance().getSoundManager().stopSounds(SWEEPING_CLOUDS_SOUND.getId(), SoundCategory.MASTER);
+        MinecraftClient.getInstance().getSoundManager().stopSounds(EMBARK.id(), SoundCategory.MASTER);
+        MinecraftClient.getInstance().getSoundManager().stopSounds(SWEEPING_CLOUDS_SOUND.id(), SoundCategory.MASTER);
         MinecraftClient.getInstance().getSoundManager().stopSounds(SoundEvents.MUSIC_DISC_OTHERSIDE.registryKey().getValue(), SoundCategory.MASTER);
-        MinecraftClient.getInstance().getSoundManager().stopSounds(SUNSHINE.getId(), SoundCategory.MASTER);
+        MinecraftClient.getInstance().getSoundManager().stopSounds(SUNSHINE.id(), SoundCategory.MASTER);
         MinecraftClient.getInstance().getSoundManager().stopSounds(SoundEvents.MUSIC_DISC_PIGSTEP.registryKey().getValue(), SoundCategory.MASTER);
         MinecraftClient.getInstance().getSoundManager().stopSounds(SoundEvents.MUSIC_DISC_MELLOHI.registryKey().getValue(), SoundCategory.MASTER);
-        MinecraftClient.getInstance().getSoundManager().stopSounds(FEELING.getId(), SoundCategory.MASTER);
-        MinecraftClient.getInstance().getSoundManager().stopSounds(HOMESICK.getId(), SoundCategory.MASTER);
+        MinecraftClient.getInstance().getSoundManager().stopSounds(FEELING.id(), SoundCategory.MASTER);
+        MinecraftClient.getInstance().getSoundManager().stopSounds(HOMESICK.id(), SoundCategory.MASTER);
         musicNumber = 1;
 
         isPlayingMusic = false;

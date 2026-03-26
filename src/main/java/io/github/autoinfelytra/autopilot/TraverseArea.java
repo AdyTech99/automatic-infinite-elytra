@@ -39,7 +39,7 @@ public class TraverseArea {
         current+=4;
         if(current >= coordinates.size()){
             stop();
-            MinecraftClient.getInstance().player.sendMessage(Text.of("Done"));
+            MinecraftClient.getInstance().player.sendMessage(Text.of("Done"), true);
             return;
         }
         Autopilot.unsetLocation();

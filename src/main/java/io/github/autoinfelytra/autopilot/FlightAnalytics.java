@@ -73,13 +73,13 @@ public class FlightAnalytics {
 
     public static void printAnalytics(PlayerEntity player){
         int width = (int) Math.floor(MinecraftClient.getInstance().options.getChatWidth().getValue());
-        player.sendMessage(Text.literal(getSeperator(width, "-")));
-        player.sendMessage(Text.literal("Flight Analytics: ").formatted(Formatting.AQUA));
-        player.sendMessage(Text.literal("Distance Travelled: " + distance).formatted(Formatting.WHITE));
-        player.sendMessage(Text.literal("Time Taken: " + getPresentableTime(time)).formatted(Formatting.WHITE));
-        player.sendMessage(Text.literal("Average Speed: " + (distance/time) + " m/s").formatted(Formatting.WHITE));
-        player.sendMessage(Text.literal("Elytra Durability Used: " + durability_lost).formatted(Formatting.WHITE));
-        player.sendMessage(Text.literal(getSeperator(width, "-")));
+        player.sendMessage(Text.literal(getSeperator(width, "-")), false);
+        player.sendMessage(Text.literal("Flight Analytics: ").formatted(Formatting.AQUA), false);
+        player.sendMessage(Text.literal("Distance Travelled: " + distance).formatted(Formatting.WHITE), false);
+        player.sendMessage(Text.literal("Time Taken: " + getPresentableTime(time)).formatted(Formatting.WHITE), false);
+        player.sendMessage(Text.literal("Average Speed: " + (distance/time) + " m/s").formatted(Formatting.WHITE), false);
+        player.sendMessage(Text.literal("Elytra Durability Used: " + durability_lost).formatted(Formatting.WHITE), false);
+        player.sendMessage(Text.literal(getSeperator(width, "-")), false);
 
     }
 }

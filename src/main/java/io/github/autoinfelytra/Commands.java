@@ -39,11 +39,11 @@ public class Commands {
                     if(AutomaticInfiniteElytraClient.autoFlight) {
                         Autopilot.initNewFlight(pos, false);
                         TraverseArea.stop();
-                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
+                        context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN), true);
                     }
-                    else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
+                    else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED), true);
                 }
-                else context.getSource().getPlayer().sendMessage(Text.literal("Previous destination is null").formatted(Formatting.RED));
+                else context.getSource().getPlayer().sendMessage(Text.literal("Previous destination is null").formatted(Formatting.RED), true);
                 return 1;
             }));
     }
@@ -60,11 +60,11 @@ public class Commands {
                         if(AutomaticInfiniteElytraClient.autoFlight) {
                             Autopilot.initNewFlight(pos, false);
                             TraverseArea.stop();
-                            context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN));
+                            context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is set to coordinates " + pos.getX() + " " + pos.getZ()).formatted(Formatting.GREEN), true);
                         }
-                        else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
+                        else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED), true);
                     }
-                    else context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is disabled. Please enable it in the Config.").formatted(Formatting.RED));
+                    else context.getSource().getPlayer().sendMessage(Text.literal("Autopilot is disabled. Please enable it in the Config.").formatted(Formatting.RED), true);
                    return 1;
         })));
     }
@@ -89,9 +89,9 @@ public class Commands {
                                 ColumnPos ending = CColumnPosArgument.getColumnPos(context, "ending");
                                     if(AutomaticInfiniteElytraClient.autoFlight) {
                                         TraverseArea.init(starting, ending);
-                                        context.getSource().getPlayer().sendMessage(Text.literal("Area traversal in progress").formatted(Formatting.GREEN));
+                                        context.getSource().getPlayer().sendMessage(Text.literal("Area traversal in progress").formatted(Formatting.GREEN), true);
                                     }
-                                    else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED));
+                                    else context.getSource().getPlayer().sendMessage(Text.literal("You need to be flying and have Automatic Flight Mode enabled.").formatted(Formatting.RED), true);
                                 return 1;
                             }))));
     }

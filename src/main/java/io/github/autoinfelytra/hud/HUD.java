@@ -15,9 +15,10 @@ import java.util.Objects;
 @Environment(EnvType.CLIENT)
 public class HUD {
 
-    public static final int RED_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.RED)).getRgb();
-    public static final int YELLOW_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.YELLOW)).getRgb();
-    public static final int GREEN_HUD_COLOR = Objects.requireNonNull(TextColor.fromFormatting(Formatting.GREEN)).getRgb();
+    // Hardcoding because easy
+    public static final int RED_HUD_COLOR = 0xFFFF5555;
+    public static final int YELLOW_HUD_COLOR = 0xFFFFFF55;
+    public static final int GREEN_HUD_COLOR = 0xFF55FF55;
 
     public static ArrayList<String> hudArray;
     public static int hudColor = RED_HUD_COLOR;
@@ -31,10 +32,14 @@ public class HUD {
         } else hudArray = null;
     }
     public static void drawHUD(DrawContext drawContext, RenderTickCounter renderTickCounter) {
-        drawContext.draw();
+        //drawContext.draw();
+        
+        MinecraftClient client = MinecraftClient.getInstance();
+        int sw = client.getWindow().getScaledWidth();
+        int sh = client.getWindow().getScaledHeight();
 
-        int x = (MinecraftClient.getInstance().getWindow().getWidth() * AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud)/2000;
-        int y = ((MinecraftClient.getInstance().getWindow().getHeight()) * AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud)/2000;
+        int x = (sw * AutomaticElytraConfig.HANDLER.instance().x_coordinates_of_hud) / 2000;
+        int y = (sh * AutomaticElytraConfig.HANDLER.instance().y_coordinates_of_hud) / 2000;
 
         //MinecraftClient.getInstance().player.sendMessage(Text.literal(String.valueOf((MinecraftClient.getInstance().getWindow().getHeight()))), true);
 

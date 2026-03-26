@@ -23,10 +23,10 @@
 	"accessWidener": "automaticinfelytra.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.0",
-		"minecraft": ">=1.21",
+		"minecraft": ">=1.21.8",
 		"java": ">=21",
 		"fabric-api": "*",
-		"yet_another_config_lib_v3": ">=3.2.1"
+		"yet_another_config_lib_v3": ">=3.8.1"
 	},
 	"suggests": {
 		"another-mod": "*"
